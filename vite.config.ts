@@ -4,7 +4,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/cocofoodmap/",
+  base: "/coco-food-map/",
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {

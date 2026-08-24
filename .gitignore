@@ -24,3 +24,6 @@ vite-project/.vscode/extensions.json
 *.sw?
 
 pnpm-lock.yaml
+
+# 独立的旧静态站点仓库，不纳入当前项目
+cocofoodmap/
