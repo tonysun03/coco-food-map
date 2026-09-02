@@ -1,0 +1,220 @@
+- main [ref=e4]:
+  - dialog [ref=e5]:
+    - button "关闭面包节邀请" [ref=e6] [cursor=pointer]: ×
+    - generic [ref=e7]: ✦
+    - generic [ref=e8]: ♡
+    - generic [ref=e9]: ✦
+    - generic [ref=e10]: BREAD DATE · FOR YOU
+    - generic [ref=e11]:
+      - generic [ref=e12]: 一起出发！
+      - img "挥手的菠萝包和面包角色" [ref=e13]
+    - generic [ref=e14]:
+      - text: 一份香香软软的邀请
+      - heading [level=2] [ref=e15]:
+        - emphasis [ref=e16]: 去面包节
+        - text: 和你
+      - paragraph [ref=e18]: 想和你一起逛逛、闻闻刚出炉的香气，再挑一只最可爱的面包带回家。
+      - button "好呀，一起去 →" [ref=e20] [cursor=pointer]:
+        - generic [ref=e21]: 好呀，一起去
+        - generic [ref=e22]: →
+  - generic [ref=e29]:
+    - link "♡ coco’s food map 我们的好吃备忘录" [ref=e30] [cursor=pointer]:
+      - /url: "#"
+      - generic [ref=e31]: ♡
+      - generic [ref=e32]:
+        - generic [ref=e33]: coco’s food map
+        - generic [ref=e34]: 我们的好吃备忘录
+    - generic [ref=e35]:
+      - text: ⌕
+      - textbox "⌕ ⌘ K" [ref=e36]:
+        - /placeholder: 搜美食、店铺、口味或回忆…
+      - generic [ref=e37]: ⌘ K
+    - generic [ref=e38]:
+      - link "🍪 零食 List" [ref=e39] [cursor=pointer]:
+        - /url: /coco-food-map/snacks
+        - generic [ref=e40]: 🍪
+        - text: 零食 List
+      - button "♡" [ref=e41] [cursor=pointer]
+      - button "＋ 记一口好吃的" [ref=e42] [cursor=pointer]
+      - generic [ref=e43]: 🐰
+  - generic [ref=e44]:
+    - generic [ref=e45]:
+      - text: ♡ FOOD · PLACE · MEMORY
+      - heading [level=1] [ref=e46]:
+        - text: 每一口好吃的，
+        - emphasis [ref=e47]: 都有地点和故事。
+      - paragraph [ref=e48]: 记下坐标、店铺、那天发生的事，也记住味道带来的心情。
+      - generic [ref=e49]:
+        - generic [ref=e50]: 19 个美食
+        - generic [ref=e51]: 17 家去过
+        - generic [ref=e52]: 17 段回忆
+    - article [ref=e53]:
+      - generic [ref=e54]: 📍
+      - generic [ref=e55]:
+        - generic [ref=e56]: 选中的味觉记忆
+        - strong [ref=e57]: 环球大道影城
+        - paragraph [ref=e58]: 环球大道影城 ·
+      - button "地图查看 →" [ref=e59] [cursor=pointer]
+  - generic [ref=e60]:
+    - complementary [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]: 按种类找
+        - generic [ref=e64]: 19 个宝藏
+      - navigation [ref=e65]:
+        - button "✦ 全部 19" [ref=e66] [cursor=pointer]:
+          - generic [ref=e67]: ✦
+          - generic [ref=e68]: 全部
+          - generic [ref=e69]: "19"
+        - button "🍽️ 其他 5" [ref=e70] [cursor=pointer]:
+          - generic [ref=e71]: 🍽️
+          - generic [ref=e72]: 其他
+          - generic [ref=e73]: "5"
+        - button "🍚 主食 4" [ref=e74] [cursor=pointer]:
+          - generic [ref=e75]: 🍚
+          - generic [ref=e76]: 主食
+          - generic [ref=e77]: "4"
+        - button "🥐 烘焙 5" [ref=e78] [cursor=pointer]:
+          - generic [ref=e79]: 🥐
+          - generic [ref=e80]: 烘焙
+          - generic [ref=e81]: "5"
+        - button "🍪 零食 1" [ref=e82] [cursor=pointer]:
+          - generic [ref=e83]: 🍪
+          - generic [ref=e84]: 零食
+          - generic [ref=e85]: "1"
+        - button "🧋 饮品 2" [ref=e86] [cursor=pointer]:
+          - generic [ref=e87]: 🧋
+          - generic [ref=e88]: 饮品
+          - generic [ref=e89]: "2"
+        - button "🍖 肉类 2" [ref=e90] [cursor=pointer]:
+          - generic [ref=e91]: 🍖
+          - generic [ref=e92]: 肉类
+          - generic [ref=e93]: "2"
+      - separator [ref=e94]
+      - generic [ref=e95]:
+        - generic [ref=e96]: 到访状态
+        - generic [ref=e97]: 计划与回忆
+      - generic [ref=e98]:
+        - button "全部" [ref=e99] [cursor=pointer]
+        - button "✓ 已去过" [ref=e100] [cursor=pointer]
+        - button "○ 想去吃" [ref=e101] [cursor=pointer]
+      - article [ref=e102]:
+        - text: 💌
+        - generic [ref=e103]:
+          - generic [ref=e104]: 记录不止是评分
+          - generic [ref=e105]: 店铺和坐标定位味道到访故事保存那天的心情
+    - generic [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e108]:
+          - generic [ref=e109]: 好吃地图
+          - generic [ref=e110]: 19 个地点正在召唤你
+        - generic [ref=e111]:
+          - button "⌖ 地图" [ref=e112] [cursor=pointer]
+          - button "☷ 列表" [ref=e113] [cursor=pointer]
+      - generic [ref=e114]:
+        - generic [ref=e118]: 老 城 区
+        - generic [ref=e119]: 甜 蜜 湾
+        - button "🎬 环球大道影城" [ref=e120] [cursor=pointer]:
+          - generic [ref=e121]: 🎬
+          - generic [ref=e122]: 环球大道影城
+        - button "🍔 SHAKE SHACK" [ref=e123] [cursor=pointer]:
+          - generic [ref=e124]: 🍔
+          - generic [ref=e125]: SHAKE SHACK
+        - button "🥖 面包师农场" [ref=e126] [cursor=pointer]:
+          - generic [ref=e127]: 🥖
+          - generic [ref=e128]: 面包师农场
+        - button "🥐 24个面包师" [ref=e129] [cursor=pointer]:
+          - generic [ref=e130]: 🥐
+          - generic [ref=e131]: 24个面包师
+        - button "🍜 肖蘸罐罐米线" [ref=e132] [cursor=pointer]:
+          - generic [ref=e133]: 🍜
+          - generic [ref=e134]: 肖蘸罐罐米线
+        - button "🥓 美珍香" [ref=e135] [cursor=pointer]:
+          - generic [ref=e136]: 🥓
+          - generic [ref=e137]: 美珍香
+        - button "🥤 北冰洋" [ref=e138] [cursor=pointer]:
+          - generic [ref=e139]: 🥤
+          - generic [ref=e140]: 北冰洋
+        - button "🧋 椿天熟成" [ref=e141] [cursor=pointer]:
+          - generic [ref=e142]: 🧋
+          - generic [ref=e143]: 椿天熟成
+        - button "🍲 孤独的寿喜烧" [ref=e144] [cursor=pointer]:
+          - generic [ref=e145]: 🍲
+          - generic [ref=e146]: 孤独的寿喜烧
+        - button "🍚 汕心" [ref=e147] [cursor=pointer]:
+          - generic [ref=e148]: 🍚
+          - generic [ref=e149]: 汕心
+        - button "🐷 吉屋出猪" [ref=e150] [cursor=pointer]:
+          - generic [ref=e151]: 🐷
+          - generic [ref=e152]: 吉屋出猪
+        - button "🍞 琦本的店" [ref=e153] [cursor=pointer]:
+          - generic [ref=e154]: 🍞
+          - generic [ref=e155]: 琦本的店
+        - button "🛒 山姆" [ref=e156] [cursor=pointer]:
+          - generic [ref=e157]: 🛒
+          - generic [ref=e158]: 山姆
+        - button "🍽️ 三出山" [ref=e159] [cursor=pointer]:
+          - generic [ref=e160]: 🍽️
+          - generic [ref=e161]: 三出山
+        - button "🍽️ 胡恰" [ref=e162] [cursor=pointer]:
+          - generic [ref=e163]: 🍽️
+          - generic [ref=e164]: 胡恰
+        - button "🥐 RUGOO RUGOO 面包小镇" [ref=e165] [cursor=pointer]:
+          - generic [ref=e166]: 🥐
+          - generic [ref=e167]: RUGOO RUGOO 面包小镇
+        - button "🍽️ 廣和川" [ref=e168] [cursor=pointer]:
+          - generic [ref=e169]: 🍽️
+          - generic [ref=e170]: 廣和川
+        - button "🥟 馄饨侯" [ref=e171] [cursor=pointer]:
+          - generic [ref=e172]: 🥟
+          - generic [ref=e173]: 馄饨侯
+        - button "🍰 麦德莲" [ref=e174] [cursor=pointer]:
+          - generic [ref=e175]: 🍰
+          - generic [ref=e176]: 麦德莲
+        - generic [ref=e177]:
+          - generic [ref=e178]: ● 已吃过
+          - generic [ref=e179]: ○ 想去吃
+    - complementary [ref=e180]:
+      - generic [ref=e181]:
+        - generic [ref=e182]:
+          - generic [ref=e183]: FOOD PROFILE
+          - generic [ref=e184]: 味觉档案
+        - button "♡" [ref=e185] [cursor=pointer]
+      - article [ref=e186]:
+        - generic [ref=e187]: 🎬
+        - generic [ref=e188]:
+          - text: ✓ 已去过
+          - heading "环球大道影城" [level=2] [ref=e189]
+          - paragraph [ref=e190]: ☆ 待评分 · 其他
+      - generic [ref=e191]:
+        - generic [ref=e192]: 店铺与地点
+        - generic [ref=e193]: 环球大道影城
+        - paragraph [ref=e194]: 📍 北京 · 环球影城度假区
+        - code [ref=e195]: 39.8557, 116.6747
+      - generic [ref=e196]:
+        - text: 味道属性
+        - generic [ref=e197]:
+          - generic [ref=e198]: 具体餐食待补充
+          - generic [ref=e199]: 度假区逛吃
+      - generic [ref=e200]:
+        - text: 我的评分
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - text: 味道
+            - generic [ref=e203]: 待评分
+          - generic [ref=e204]:
+            - text: 性价比
+            - generic [ref=e205]: 待评分
+          - generic [ref=e206]:
+            - text: 环境
+            - generic [ref=e207]: 待评分
+        - blockquote [ref=e208]: “个人评价待补充。”
+      - generic [ref=e209]:
+        - generic [ref=e210]: 到访与故事 · 1
+        - article [ref=e211]:
+          - generic [ref=e212]: ♡
+          - generic [ref=e213]:
+            - generic [ref=e214]: 2026-08-22
+            - paragraph [ref=e215]: 到访记录已导入；同行人和当时发生的事情待补充。
+  - generic [ref=e216]:
+    - generic [ref=e217]: Made with ♡ for 小馋猫
+    - generic [ref=e218]: 下一站，也要一起吃很多很多顿饭。 🍓

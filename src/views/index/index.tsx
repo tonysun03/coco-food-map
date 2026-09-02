@@ -1,7 +1,3 @@
-/*
- * 旧首页：美食地图
- * 按需求暂时整体注释保留，后续可随时恢复。
- *
 import { computed, defineComponent, onMounted, ref, watch } from "vue";
 import { RouterLink } from "vue-router";
 
@@ -342,7 +338,7 @@ const categoryIcons: Record<string,string>={全部:"✦",肉类:"🍖",饮品:"�
 const emptyForm=()=>({name:"",shop:"",address:"",lat:"",lng:"",visited:false,date:"",companions:"",event:"",category:"肉类",ingredient:"",form:"",flavors:"",cuisine:"",overall:4.5,review:""});
 
 export default defineComponent({setup(){
- const records=ref<FoodRecord[]>([...seed]),category=ref("全部"),query=ref(""),selected=ref(101),favorites=ref<number[]>([]),status=ref("全部"),view=ref<"map"|"list">("map"),modal=ref(false),form=ref(emptyForm());
+ const records=ref<FoodRecord[]>([...seed]),category=ref("全部"),query=ref(""),selected=ref(101),favorites=ref<number[]>([]),status=ref("全部"),view=ref<"map"|"list">("map"),modal=ref(false),festivalModal=ref(true),form=ref(emptyForm());
  onMounted(()=>{records.value=[...seed]});
  watch(records,v=>localStorage.setItem("coco-food-records",JSON.stringify(v)),{deep:true});
  const categories=computed(()=>["全部",...Array.from(new Set(records.value.map(f=>f.attributes.category)))]);
@@ -351,6 +347,7 @@ export default defineComponent({setup(){
  const heart=(id:number)=>favorites.value=favorites.value.includes(id)?favorites.value.filter(x=>x!==id):[...favorites.value,id];
  const save=()=>{const f=form.value;if(!f.name.trim()||!f.shop.trim()||!f.address.trim())return;const id=Date.now(),lat=Number(f.lat)||23.1291,lng=Number(f.lng)||113.2644;records.value.push({id,name:f.name.trim(),shop:f.shop.trim(),address:f.address.trim(),coordinates:{lat,lng},map:{x:12+Math.random()*76,y:15+Math.random()*68},visited:f.visited,visits:f.visited&&f.date?[{id,date:f.date,companions:f.companions,event:f.event}]:[],attributes:{category:f.category,ingredient:f.ingredient,form:f.form,flavors:f.flavors.split(/[、,，]/).map(x=>x.trim()).filter(Boolean),cuisine:f.cuisine||null},rating:{overall:Number(f.overall),taste:Number(f.overall),value:Number(f.overall),environment:Number(f.overall)},review:f.review,emoji:categoryIcons[f.category]||"🍽️",color:"#e98772"});selected.value=id;modal.value=false;category.value="全部"};
  return()=> <main>
+  {festivalModal.value&&<div class="festival-mask" role="presentation" onClick={e=>{if(e.target===e.currentTarget)festivalModal.value=false}}><section class="festival-modal" role="dialog" aria-modal="true" aria-labelledby="festival-title"><button class="festival-close" type="button" aria-label="关闭面包节邀请" onClick={()=>festivalModal.value=false}>×</button><span class="festival-spark festival-spark-one">✦</span><span class="festival-spark festival-spark-two">♡</span><span class="festival-spark festival-spark-three">✦</span><div class="festival-badge">BREAD DATE · FOR YOU</div><div class="festival-art"><span class="festival-doodle">一起出发！</span><img src={`${import.meta.env.BASE_URL}snack-mascots.png`} alt="挥手的菠萝包和面包角色"/></div><div class="festival-copy"><small>一份香香软软的邀请</small><h2 id="festival-title"><em>去面包节</em><br/>和你</h2><p>想和你一起逛逛、闻闻刚出炉的香气，<br/>再挑一只最可爱的面包带回家。</p><button type="button" onClick={()=>festivalModal.value=false}><span>好呀，一起去</span><i>→</i></button></div><div class="festival-crumbs" aria-hidden="true"><i/><i/><i/><i/><i/></div></section></div>}
   <header class="topbar"><a class="brand" href="#"><i>♡</i><span><b>coco’s food map</b><small>我们的好吃备忘录</small></span></a><label class="search">⌕<input v-model={query.value} placeholder="搜美食、店铺、口味或回忆…"/><kbd>⌘ K</kbd></label><div class="actions"><RouterLink class="snack-entry" to="/snacks"><span>🍪</span> 零食 List</RouterLink><button>♡</button><button class="add" onClick={()=>{form.value=emptyForm();modal.value=true}}>＋ 记一口好吃的</button><span>🐰</span></div></header>
   <section class="hero"><div><label>♡ FOOD · PLACE · MEMORY</label><h1>每一口好吃的，<br/><em>都有地点和故事。</em></h1><p>记下坐标、店铺、那天发生的事，也记住味道带来的心情。</p><div class="stats"><span><b>{records.value.length}</b> 个美食</span><span><b>{visitedCount.value}</b> 家去过</span><span><b>{records.value.reduce((n,f)=>n+f.visits.length,0)}</b> 段回忆</span></div></div><article class="surprise"><i>📍</i><div><small>选中的味觉记忆</small><strong>{chosen.value?.name}</strong><p>{chosen.value?.shop} · {chosen.value?.attributes.flavors.join(" / ")}</p></div><button onClick={()=>view.value="map"}>地图查看 →</button></article></section>
   <section class="content"><aside class="filters"><Title text="按种类找" tip={`${records.value.length} 个宝藏`}/><nav>{categories.value.map(n=><button class={{active:category.value===n}} onClick={()=>category.value=n}><i>{categoryIcons[n]||"🍽️"}</i><b>{n}</b><small>{n==="全部"?records.value.length:records.value.filter(f=>f.attributes.category===n).length}</small></button>)}</nav><hr/><Title text="到访状态" tip="计划与回忆"/><div class="status-filter">{["全部","已去过","想去吃"].map(s=><button class={{active:status.value===s}} onClick={()=>status.value=s}>{s==="已去过"?"✓ ":s==="想去吃"?"○ ":""}{s}</button>)}</div><article class="note">💌 <span><b>记录不止是评分</b><small>店铺和坐标定位味道<br/>到访故事保存那天的心情</small></span></article></aside>
@@ -364,76 +361,75 @@ const Title=defineComponent({props:{text:String,tip:String},setup(p){return()=> 
 const Empty=defineComponent({setup(){return()=> <div class="empty">🍽️<b>这里还没有记录</b><small>换个筛选条件，或记下新的好吃吧</small></div>}});
 const Field=defineComponent({props:{label:String,wide:Boolean},setup(p,{slots}){return()=> <label class={{field:true,wide:p.wide}}><span>{p.label}</span>{slots.default?.()}</label>}});
 const FoodDetail=defineComponent({props:{food:{type:Object as ()=>FoodRecord,required:true},liked:Boolean},emits:["heart"],setup(p,{emit}){const score=(n:number)=>n?n.toFixed(1):"待评分";return()=> <><div class="detail-head"><span><small>FOOD PROFILE</small><b>味觉档案</b></span><button class={{liked:p.liked}} onClick={()=>emit("heart")}>{p.liked?"♥":"♡"}</button></div><article class="food-hero"><i style={{background:p.food.color}}>{p.food.emoji}</i><span><label>{p.food.visited?"✓ 已去过":"○ 想去吃"}</label><h2>{p.food.name}</h2><p>{p.food.rating.overall?`★ ${score(p.food.rating.overall)}`:"☆ 待评分"} · {p.food.attributes.category}</p></span></article><section class="place-info"><small>店铺与地点</small><b>{p.food.shop}</b><p>📍 {p.food.address}</p><code>{p.food.coordinates.lat.toFixed(4)}, {p.food.coordinates.lng.toFixed(4)}</code></section><section><small class="section-label">味道属性</small><div class="chips"><b>{p.food.attributes.ingredient||"原料待补充"}</b><b>{p.food.attributes.form||"做法待补充"}</b>{p.food.attributes.cuisine&&<b>{p.food.attributes.cuisine}</b>}{p.food.attributes.flavors.map(x=><span>{x}</span>)}</div></section><section class="ratings"><small class="section-label">我的评分</small><div><span>味道 <b>{score(p.food.rating.taste)}</b></span><span>性价比 <b>{score(p.food.rating.value)}</b></span><span>环境 <b>{score(p.food.rating.environment)}</b></span></div><blockquote>“{p.food.review||"还没有写评价"}”</blockquote></section><section class="memory"><small class="section-label">到访与故事 · {p.food.visits.length}</small>{p.food.visits.length?p.food.visits.map(v=><article><i>♡</i><span><b>{v.date} {v.companions&&`· ${v.companions}`}</b><p>{v.event||"这一天还没有写下故事。"}</p></span></article>):<p class="not-visited">还没去过，把它留在下一站清单里。</p>}</section></>}});
-*/
 
-import { defineComponent } from "vue";
-
-const paragraphs = [
-  "其实这段时间我也一直在等。",
-  "有时候晚上安静下来，会想起之前的一些事，也会想，你是不是还会再说点什么。",
-  "我也不是不能继续等，只是现在想想，可能真的等不到了。",
-  "那就这样吧。",
-  "其实到最后，我也慢慢明白了，有些事情不是解释得越多就越清楚。",
-  "很多时候，我们都觉得自己已经很理解对方了，可真正站到对方的位置上，还是很难。",
-  "我以前也总觉得，只要足够认真、足够在意，就能理解一个人的感受。",
-  "后来才发现，不是这样的。",
-  "有些难受只有自己知道，别人哪怕很想理解，也未必真的能体会。",
-  "所以如果你累了，就休息一下吧。",
-  "不用再勉强自己去维持什么，也不用觉得一定要给谁一个完整的答案。",
-  "有些事情，暂时放在那里也没关系。",
-  "过一段时间再回头看，也许很多现在觉得过不去的东西，就没那么重了。",
-  "我也是。",
-  "我也会慢慢往前走。",
-];
-
-export default defineComponent({
-  name: "GoodbyeLetter",
-  setup() {
-    return () => (
-      <main class="letter-page">
-        <div class="letter-glow letter-glow-left" aria-hidden="true" />
-        <div class="letter-glow letter-glow-right" aria-hidden="true" />
-
-        <header class="letter-masthead">
-          <span>THE LAST LETTER</span>
-          <i aria-hidden="true" />
-          <span>一封没有寄出的信</span>
-        </header>
-
-        <article class="letter-article">
-          <header class="letter-title">
-            <span class="letter-number">01</span>
-            <p>关于告别</p>
-            <h1>好好说再见</h1>
-            <div class="letter-rule" aria-hidden="true"><i /></div>
-            <p class="letter-lead">
-              哪怕最后有点仓促，有点狼狈，我还是觉得，<br />
-              至少应该好好说句再见。
-            </p>
-          </header>
-
-          <section class="letter-body">
-            {paragraphs.map((paragraph, index) => (
-              <p class={{
-                "letter-pause": [3, 7, 9, 13, 14].includes(index),
-                "letter-ending": index === paragraphs.length - 1,
-              }}>
-                {paragraph}
-              </p>
-            ))}
-          </section>
-
-          <footer class="letter-signoff" aria-label="文章结尾">
-            <span />
-            <i>再见。</i>
-          </footer>
-        </article>
-
-        <footer class="letter-footer">
-          <span>有些告别很轻</span>
-          <span>却要用很久，才能走完</span>
-        </footer>
-      </main>
-    );
-  },
-});
+// import { defineComponent } from "vue";
+//
+// const paragraphs = [
+//   "其实这段时间我也一直在等。",
+//   "有时候晚上安静下来，会想起之前的一些事，也会想，你是不是还会再说点什么。",
+//   "我也不是不能继续等，只是现在想想，可能真的等不到了。",
+//   "那就这样吧。",
+//   "其实到最后，我也慢慢明白了，有些事情不是解释得越多就越清楚。",
+//   "很多时候，我们都觉得自己已经很理解对方了，可真正站到对方的位置上，还是很难。",
+//   "我以前也总觉得，只要足够认真、足够在意，就能理解一个人的感受。",
+//   "后来才发现，不是这样的。",
+//   "有些难受只有自己知道，别人哪怕很想理解，也未必真的能体会。",
+//   "所以如果你累了，就休息一下吧。",
+//   "不用再勉强自己去维持什么，也不用觉得一定要给谁一个完整的答案。",
+//   "有些事情，暂时放在那里也没关系。",
+//   "过一段时间再回头看，也许很多现在觉得过不去的东西，就没那么重了。",
+//   "我也是。",
+//   "我也会慢慢往前走。",
+// ];
+//
+// export default defineComponent({
+//   name: "GoodbyeLetter",
+//   setup() {
+//     return () => (
+//       <main class="letter-page">
+//         <div class="letter-glow letter-glow-left" aria-hidden="true" />
+//         <div class="letter-glow letter-glow-right" aria-hidden="true" />
+//
+//         <header class="letter-masthead">
+//           <span>THE LAST LETTER</span>
+//           <i aria-hidden="true" />
+//           <span>一封没有寄出的信</span>
+//         </header>
+//
+//         <article class="letter-article">
+//           <header class="letter-title">
+//             <span class="letter-number">01</span>
+//             <p>关于告别</p>
+//             <h1>好好说再见</h1>
+//             <div class="letter-rule" aria-hidden="true"><i /></div>
+//             <p class="letter-lead">
+//               哪怕最后有点仓促，有点狼狈，我还是觉得，<br />
+//               至少应该好好说句再见。
+//             </p>
+//           </header>
+//
+//           <section class="letter-body">
+//             {paragraphs.map((paragraph, index) => (
+//               <p class={{
+//                 "letter-pause": [3, 7, 9, 13, 14].includes(index),
+//                 "letter-ending": index === paragraphs.length - 1,
+//               }}>
+//                 {paragraph}
+//               </p>
+//             ))}
+//           </section>
+//
+//           <footer class="letter-signoff" aria-label="文章结尾">
+//             <span />
+//             <i>再见。</i>
+//           </footer>
+//         </article>
+//
+//         <footer class="letter-footer">
+//           <span>有些告别很轻</span>
+//           <span>却要用很久，才能走完</span>
+//         </footer>
+//       </main>
+//     );
+//   },
+// });
