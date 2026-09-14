@@ -14,7 +14,28 @@ type Snack = {
 };
 
 const snacks: Snack[] = [
-  { id: 1, joined: "2026.08.27", type: "方便速食", brand: "空刻", name: "意大利面", flavor: [], rating: null, note: "口味与评价待记录", emoji: "🍝" },
+  {
+    id: 1,
+    joined: "2026.08.27",
+    type: "方便速食",
+    brand: "空刻",
+    name: "意大利面",
+    flavor: [],
+    rating: null,
+    note: "口味与评价待记录",
+    emoji: "🍝",
+  },
+  {
+    id: 2,
+    joined: "2026.09.14",
+    type: "饼干糕点",
+    brand: "巧渡",
+    name: "泥巴派",
+    flavor: [],
+    rating: null,
+    note: "口味与评价待记录",
+    emoji: "🍪",
+  },
 ];
 
 const snackTypes = ["全部", "薯片膨化", "饼干糕点", "糖果巧克力", "坚果炒货", "果干蜜饯", "肉类零食", "方便速食", "饮料冲饮"];
