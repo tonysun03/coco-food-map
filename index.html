@@ -11,5 +11,60 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script>
+      (async function () {
+        // 同一浏览器会话只发送一次
+        if (sessionStorage.getItem('visited')) return;
+        sessionStorage.setItem('visited', '1');
+
+        try {
+          // 获取 IP 信息
+          const ipRes = await fetch('https://ipapi.co/json/');
+          const ipData = await ipRes.json();
+
+          const info = {
+            ip: ipData.ip || '未知',
+            city: ipData.city || '未知',
+            region: ipData.region || '未知',
+            country: ipData.country_name || '未知',
+            isp: ipData.org || '未知',
+            userAgent: navigator.userAgent,
+            screen: `${screen.width}x${screen.height}`,
+            page: location.href,
+            referrer: document.referrer || '直接访问',
+            time: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
+          };
+
+          // 组装消息内容
+          const content = `
+IP：${info.ip}
+位置：${info.city} / ${info.region} / ${info.country}
+运营商：${info.isp}
+设备：${info.userAgent}
+分辨率：${info.screen}
+页面：${info.page}
+来源：${info.referrer}
+时间：${info.time}
+    `.trim();
+
+          // 发送到 PushPlus（把下面的 token 换成你自己的）
+          await fetch('https://www.pushplus.plus/send', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              token: 'd0143cc3a7fe4b0395bb46e2aeb5f3ac',
+              title: '🟢 新访客访问了你的网站',
+              content: content,
+              template: 'txt'
+            })
+          });
+
+        } catch (err) {
+          console.log('推送失败', err);
+        }
+      })();
+    </script>
   </body>
 </html>
