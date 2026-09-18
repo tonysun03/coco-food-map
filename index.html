@@ -13,9 +13,18 @@
     <script type="module" src="/src/main.ts"></script>
     <script>
       (async function () {
-        // 同一浏览器会话只发送一次
-        if (sessionStorage.getItem('visited')) return;
-        sessionStorage.setItem('visited', '1');
+        const trackingInterval = 30 * 60 * 1000;
+        const trackingKey = 'access_tracking_last_uploaded_at';
+        const localHostnames = new Set(['localhost', '127.0.0.1', '0.0.0.0', '::1']);
+
+        // 开发模式或通过本机地址调试时，不执行任何埋点请求。
+        if ('%MODE%' !== 'production' || localHostnames.has(location.hostname)) return;
+
+        // 同一站点同一浏览器 30 分钟内只上传一次，刷新页面不会重复上报。
+        const now = Date.now();
+        const lastUploadedAt = Number(localStorage.getItem(trackingKey));
+        if (Number.isFinite(lastUploadedAt) && now - lastUploadedAt < trackingInterval) return;
+        localStorage.setItem(trackingKey, String(now));
 
         try {
           // 获取 IP 信息
