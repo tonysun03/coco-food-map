@@ -22,27 +22,66 @@
 
         // 同一站点同一浏览器 30 分钟内只上传一次，刷新页面不会重复上报。
         const now = Date.now();
-        const lastUploadedAt = Number(localStorage.getItem(trackingKey));
+        let lastUploadedAt = 0;
+        try {
+          lastUploadedAt = Number(localStorage.getItem(trackingKey));
+        } catch (err) {
+          // 隐私模式下 localStorage 可能不可用，不影响本次埋点。
+          console.warn('读取埋点时间失败', err);
+        }
         if (Number.isFinite(lastUploadedAt) && now - lastUploadedAt < trackingInterval) return;
-        localStorage.setItem(trackingKey, String(now));
 
         try {
-          // 获取 IP 信息
-          const ipRes = await fetch('https://ipapi.co/json/');
-          const ipData = await ipRes.json();
-
+          // IP 只是补充信息：接口失败、超时或被地区网络拦截时，不能阻断埋点。
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
           const info = {
-            ip: ipData.ip || '未知',
-            city: ipData.city || '未知',
-            region: ipData.region || '未知',
-            country: ipData.country_name || '未知',
-            isp: ipData.org || '未知',
+            ip: '未知',
+            city: '未知',
+            region: '未知',
+            country: '未知',
+            isp: '未知',
             userAgent: navigator.userAgent,
             screen: `${screen.width}x${screen.height}`,
+            viewport: `${window.innerWidth}x${window.innerHeight}`,
+            pixelRatio: window.devicePixelRatio || 1,
+            language: navigator.language || '未知',
+            languages: navigator.languages?.join(', ') || '未知',
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '未知',
+            platform: navigator.platform || '未知',
+            touchPoints: navigator.maxTouchPoints || 0,
+            cores: navigator.hardwareConcurrency || '未知',
+            deviceMemory: navigator.deviceMemory ? `${navigator.deviceMemory}GB` : '未知',
+            online: navigator.onLine ? '在线' : '离线',
+            network: connection
+              ? `${connection.effectiveType || '未知'} / ${connection.downlink || '未知'}Mbps`
+              : '未知',
             page: location.href,
+            path: location.pathname,
             referrer: document.referrer || '直接访问',
+            utm: location.search || '无',
             time: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
           };
+
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 2500);
+            try {
+              const ipRes = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+
+              if (!ipRes.ok) throw new Error(`IP 接口返回 ${ipRes.status}`);
+
+              const ipData = await ipRes.json();
+              info.ip = ipData.ip || info.ip;
+              info.city = ipData.city || info.city;
+              info.region = ipData.region || info.region;
+              info.country = ipData.country_name || info.country;
+              info.isp = ipData.org || info.isp;
+            } finally {
+              clearTimeout(timeoutId);
+            }
+          } catch (err) {
+            console.warn('获取 IP 信息失败，继续上报基础埋点', err);
+          }
 
           // 组装消息内容
           const content = `
@@ -50,14 +89,25 @@ IP：${info.ip}
 位置：${info.city} / ${info.region} / ${info.country}
 运营商：${info.isp}
 设备：${info.userAgent}
-分辨率：${info.screen}
+屏幕：${info.screen}
+窗口：${info.viewport}
+像素比：${info.pixelRatio}
+语言：${info.language}（${info.languages}）
+时区：${info.timezone}
+平台：${info.platform}
+触控点：${info.touchPoints}
+CPU 核心：${info.cores}
+设备内存：${info.deviceMemory}
+网络：${info.network}，${info.online}
 页面：${info.page}
+路径：${info.path}
 来源：${info.referrer}
+参数：${info.utm}
 时间：${info.time}
     `.trim();
 
           // 发送到 PushPlus（把下面的 token 换成你自己的）
-          await fetch('https://www.pushplus.plus/send', {
+          const pushRes = await fetch('https://www.pushplus.plus/send', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -70,6 +120,16 @@ IP：${info.ip}
             })
           });
 
+          if (!pushRes.ok) throw new Error(`PushPlus 返回 ${pushRes.status}`);
+          const pushData = await pushRes.json();
+          if (pushData.code !== 200) throw new Error(pushData.msg || 'PushPlus 上报失败');
+
+          // 只有 PushPlus 确认成功后才记录时间，避免 IP 失败造成半小时不再重试。
+          try {
+            localStorage.setItem(trackingKey, String(Date.now()));
+          } catch (err) {
+            console.warn('保存埋点时间失败', err);
+          }
         } catch (err) {
           console.log('推送失败', err);
         }
